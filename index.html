@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>高中数学每日一练</title>
+<title>每日一题</title>
 <script>
 MathJax = {
   tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
@@ -12,14 +12,112 @@ MathJax = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
-body { font-family: serif; max-width: 720px; margin: 2em auto; padding: 0 1em; line-height: 1.8; }
+body { font-family: serif; max-width: 720px; margin: 2em auto; padding: 0 1em; line-height: 1.8; font-size: 16px; }
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::marker { content: ''; }
+details > summary::before { content: "▶ "; font-size: 0.7em; }
+details[open] > summary::before { content: "▼ "; font-size: 0.7em; }
+.problem { background: #fef9e7; padding: 1em 1.2em; border-radius: 6px; margin-bottom: 0.8em; }
+.proof { background: #eafaf1; padding: 1em 1.2em; border-radius: 6px; margin-top: 0.8em; }
+.detail-body { overflow: hidden; }
 </style>
 </head>
 <body>
 
-<p><strong>2026.05.12.</strong> 已知 \(a,b,c\in\mathbb{R}^+\), 证明:
-\[\frac{27a^2b^2c^2}{(a+b+c)^3}\geq (a+b-c)(a+c-b)(b+c-a).\]
-<em>提示: 正弦定理.</em></p>
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.14.</strong></summary>
+    <div class="detail-body">
+      Find a pair of chain complexes \(C_*\) and \(D_*\) such that the tensor product chain complex \(C_*\otimes D_*\) does not satisfy the K\"unneth formula, i.e., there is some \(n\) such that
+      \[H_n(C_*\otimes D_*)\not\cong\bigoplus_{p+q=n}H_p(C_*)\otimes H_q(D_*)\oplus\bigoplus_{p+q=n-1}\text{Tor}\left(H_p(C_*),H_q(D_*)\right).\]
+      <div class="proof">
+        <details>
+          <summary><em>Solution.</em></summary>
+          <div class="detail-body">
+            Let \(C_*\) be as follows
+            \[\cdots\to 0\to C_1\xrightarrow{\cdot 2} C_0\to 0\to\cdots,\]
+            where \(C_1=\mathbb{Z},\;C_0=\mathbb{Z}/2\mathbb{Z},\;\partial_1:C_1\to C_0\) defined as \(n\mapsto [2n]\), and other \(C_k=0\) for \(k\ne 0,1\). And define \(D_*=C_*\). Then we have
+            \[H_0(C_*)=H_0(D_*)=\frac{\ker\partial_0}{\operatorname{im}\partial_1}=\mathbb{Z}/2\mathbb{Z},\quad H_1(C_*)=H_1(D_*)=\frac{\ker\partial_1}{\operatorname{im}\partial_2}=\mathbb{Z},\]
+            and \((C_*\otimes D_*)_0=C_0\otimes D_0=\mathbb{Z}/2\mathbb{Z}\), \((C_*\otimes D_*)_1=(C_0\otimes D_1)\oplus(C_1\otimes D_0)=\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\), we find that \(\partial^\otimes_1\) from \((C_*\otimes D_*)_1\) to \((C_*\otimes D_*)_0\) is defined as, just induced from \(\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\) to \(\mathbb{Z}/2\mathbb{Z}\), is \(\partial^\otimes_1(c,d)=[2(c+d)]=0\), note that
+            \[\ker\partial_1^\otimes=(C_*\otimes D_*)_1\cong\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z},\quad H_1(C_*\otimes D_*)=\frac{\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}}{\operatorname{im}\partial^\otimes_2},\]
+            but to check K\"unneth formula, we have
+            \[\begin{aligned}
+              &\bigoplus_{p+q=1}H_p(C_*)\otimes H_q(D_*)\oplus\bigoplus_{p+q=0}\text{Tor}\left(H_p(C_*),H_q(D_*)\right)\\
+              =&\left(H_0(C_*)\otimes H_1(D_*)\right)\oplus\left(H_1(C_*)\otimes H_0(D_*)\right)\oplus \text{Tor}\left(H_0(C_*),H_0(D_*)\right)\\
+              =&\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\oplus\text{Tor}\left(\mathbb{Z}/2\mathbb{Z},\mathbb{Z}/2\mathbb{Z}\right)\cong\ker\left(\mathbb{Z}/2\mathbb{Z}\xrightarrow{\cdot 2}\mathbb{Z}/2\mathbb{Z}\right)\\
+              =&\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\not\cong\left(\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\right)/\operatorname{im}\partial^\otimes_2.\quad\square
+            \end{aligned}\]
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+</div>
 
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.12.</strong></summary>
+    <div class="detail-body">
+      已知 \(a,b,c\in\mathbb{R}^+\), 证明:
+      \[\frac{27a^2b^2c^2}{(a+b+c)^3}\geq (a+b-c)(a+c-b)(b+c-a).\]
+      <em>提示: 正弦定理.</em>
+      <div class="proof">
+        <details>
+          <summary><em>证明:</em></summary>
+          <div class="detail-body">
+            考虑海伦公式, 我们有 \(S=\sqrt{p\ldots}\), 最后即证明 \(\sin A+\sin B+\sin C\leq\dfrac{3\sqrt{3}}{2}\) 即可. \(\square\)
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+</div>
+
+<script>
+document.querySelectorAll('details').forEach(detail => {
+  const summary = detail.querySelector('summary');
+  const body = detail.querySelector('.detail-body');
+  let animating = false;
+
+  if (detail.open) {
+    body.style.height = 'auto';
+  } else {
+    body.style.height = '0';
+  }
+
+  summary.addEventListener('click', e => {
+    e.preventDefault();
+    if (animating) return;
+    animating = true;
+
+    if (detail.open) {
+      body.style.transition = 'height 0.3s ease';
+      body.style.height = body.scrollHeight + 'px';
+      body.offsetHeight;
+      body.style.height = '0';
+      body.addEventListener('transitionend', function onEnd() {
+        detail.open = false;
+        animating = false;
+        body.removeEventListener('transitionend', onEnd);
+      });
+    } else {
+      detail.open = true;
+      body.style.transition = 'none';
+      body.style.height = 'auto';
+      const h = body.scrollHeight;
+      body.style.height = '0';
+      body.offsetHeight;
+      body.style.transition = 'height 0.3s ease';
+      body.style.height = h + 'px';
+      body.addEventListener('transitionend', function onEnd() {
+        body.style.height = 'auto';
+        animating = false;
+        body.removeEventListener('transitionend', onEnd);
+      });
+    }
+  });
+});
+</script>
 </body>
 </html>
