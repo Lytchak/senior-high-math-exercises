@@ -13,28 +13,60 @@ MathJax = {
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
 body { font-family: serif; max-width: 720px; margin: 2em auto; padding: 0 1em; line-height: 1.8; font-size: 16px; }
+
 details > summary { cursor: pointer; list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
 details > summary::marker { content: ''; }
 details > summary::before { content: "▶ "; font-size: 0.7em; }
 details[open] > summary::before { content: "▼ "; font-size: 0.7em; }
+
 .problem { background: #fef9e7; padding: 1em 1.2em; border-radius: 6px; margin-bottom: 0.8em; }
 .proof { background: #eafaf1; padding: 1em 1.2em; border-radius: 6px; margin-top: 0.8em; }
-.detail-body { overflow: hidden; }
+
+.anim-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+}
+.ready .anim-wrap {
+  transition: grid-template-rows 0.3s ease;
+}
+details[open] > .anim-wrap {
+  grid-template-rows: 1fr;
+}
+.anim-inner {
+  overflow: hidden;
+}
 </style>
 </head>
 <body>
 
 <div class="problem">
   <details open>
+    <summary><strong>2026.05.15.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      过定点 \(A(a,b)\) 任作相互垂直的两条直线 \(l_1\) 与 \(l_2\), 且 \(l_1\) 与 \(x\) 轴交于点 \(M\), \(l_2\) 与 \(y\) 轴交于点 \(N\), 求线段 \(MN\) 中点 \(P\) 的轨迹方程.
+      <div class="proof">
+        <details>
+          <summary><strong>解.</strong></summary>
+          <div class="anim-wrap"><div class="anim-inner">
+            \(2ax+2by-a^2-b^2=0\).
+          </div></div>
+        </details>
+      </div>
+    </div></div>
+  </details>
+</div>
+
+<div class="problem">
+  <details open>
     <summary><strong>2026.05.14.</strong></summary>
-    <div class="detail-body">
+    <div class="anim-wrap"><div class="anim-inner">
       Find a pair of chain complexes \(C_*\) and \(D_*\) such that the tensor product chain complex \(C_*\otimes D_*\) does not satisfy the K\"unneth formula, i.e., there is some \(n\) such that
       \[H_n(C_*\otimes D_*)\not\cong\bigoplus_{p+q=n}H_p(C_*)\otimes H_q(D_*)\oplus\bigoplus_{p+q=n-1}\text{Tor}\left(H_p(C_*),H_q(D_*)\right).\]
       <div class="proof">
         <details>
           <summary><em>Solution.</em></summary>
-          <div class="detail-body">
+          <div class="anim-wrap"><div class="anim-inner">
             Let \(C_*\) be as follows
             \[\cdots\to 0\to C_1\xrightarrow{\cdot 2} C_0\to 0\to\cdots,\]
             where \(C_1=\mathbb{Z},\;C_0=\mathbb{Z}/2\mathbb{Z},\;\partial_1:C_1\to C_0\) defined as \(n\mapsto [2n]\), and other \(C_k=0\) for \(k\ne 0,1\). And define \(D_*=C_*\). Then we have
@@ -48,74 +80,36 @@ details[open] > summary::before { content: "▼ "; font-size: 0.7em; }
               =&\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\oplus\text{Tor}\left(\mathbb{Z}/2\mathbb{Z},\mathbb{Z}/2\mathbb{Z}\right)\cong\ker\left(\mathbb{Z}/2\mathbb{Z}\xrightarrow{\cdot 2}\mathbb{Z}/2\mathbb{Z}\right)\\
               =&\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\not\cong\left(\mathbb{Z}/2\mathbb{Z}\oplus\mathbb{Z}/2\mathbb{Z}\right)/\operatorname{im}\partial^\otimes_2.\quad\square
             \end{aligned}\]
-          </div>
+          </div></div>
         </details>
       </div>
-    </div>
+    </div></div>
   </details>
 </div>
 
 <div class="problem">
   <details open>
     <summary><strong>2026.05.12.</strong></summary>
-    <div class="detail-body">
+    <div class="anim-wrap"><div class="anim-inner">
       已知 \(a,b,c\in\mathbb{R}^+\), 证明:
       \[\frac{27a^2b^2c^2}{(a+b+c)^3}\geq (a+b-c)(a+c-b)(b+c-a).\]
       <em>提示: 正弦定理.</em>
       <div class="proof">
         <details>
           <summary><em>证明:</em></summary>
-          <div class="detail-body">
+          <div class="anim-wrap"><div class="anim-inner">
             考虑海伦公式, 我们有 \(S=\sqrt{p\ldots}\), 最后即证明 \(\sin A+\sin B+\sin C\leq\dfrac{3\sqrt{3}}{2}\) 即可. \(\square\)
-          </div>
+          </div></div>
         </details>
       </div>
-    </div>
+    </div></div>
   </details>
 </div>
 
 <script>
-document.querySelectorAll('details').forEach(detail => {
-  const summary = detail.querySelector('summary');
-  const body = detail.querySelector('.detail-body');
-  let animating = false;
-
-  if (detail.open) {
-    body.style.height = 'auto';
-  } else {
-    body.style.height = '0';
-  }
-
-  summary.addEventListener('click', e => {
-    e.preventDefault();
-    if (animating) return;
-    animating = true;
-
-    if (detail.open) {
-      body.style.transition = 'height 0.3s ease';
-      body.style.height = body.scrollHeight + 'px';
-      body.offsetHeight;
-      body.style.height = '0';
-      body.addEventListener('transitionend', function onEnd() {
-        detail.open = false;
-        animating = false;
-        body.removeEventListener('transitionend', onEnd);
-      });
-    } else {
-      detail.open = true;
-      body.style.transition = 'none';
-      body.style.height = 'auto';
-      const h = body.scrollHeight;
-      body.style.height = '0';
-      body.offsetHeight;
-      body.style.transition = 'height 0.3s ease';
-      body.style.height = h + 'px';
-      body.addEventListener('transitionend', function onEnd() {
-        body.style.height = 'auto';
-        animating = false;
-        body.removeEventListener('transitionend', onEnd);
-      });
-    }
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    document.body.classList.add('ready');
   });
 });
 </script>
