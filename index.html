@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High School Math Daily</title>
+<script>
+MathJax = {
+  tex: { 
+    inlineMath: [['\\(', '\\)'], ['$', '$']], 
+    displayMath: [['\\[', '\\]'], ['$$', '$$']] 
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+/* 引入霞鹜文楷、英文衬线和UI字体 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=LXGW+WenKai&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  --nav-width: 168px;
+  --nav-bg: #151520;
+  --nav-text: #8b8ba0;
+  --nav-hover-text: #fff;
+  --accent: #e8590c;
+  --body-bg: #f4f1ec;
+  --card-bg: #fef9e7;
+  --card-border: #f0d98d;
+  --proof-bg: #eef7f0;
+  --proof-border: #6abf73;
+  --text: #2c2c2c;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  /* 优先使用霞鹜文楷显示中文，英文用 Source Serif 4 */
+  font-family: 'LXGW WenKai', 'Source Serif 4', Georgia, serif;
+  line-height: 1.8; font-size: 16px;
+  background: var(--body-bg); color: var(--text);
+}
+
+/* ── Sidebar ── */
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--nav-width); height: 100vh;
+  background: var(--nav-bg);
+  overflow-y: auto; z-index: 100;
+  display: flex; flex-direction: column;
+}
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+.sidebar-header {
+  padding: 1.4em 1.2em 1em;
+  border-bottom: 1px solid #2a2a3a;
+}
+.sidebar-header h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7em; font-weight: 600;
+  color: var(--accent); letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.sidebar-header p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65em; color: #555;
+  margin-top: 0.2em; letter-spacing: 0.05em;
+}
+
+.nav-section {
+  padding: 0.6em 0;
+}
+.nav-year {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65em; font-weight: 600;
+  color: #555; padding: 0.5em 1.3em 0.2em;
+  letter-spacing: 0.1em;
+}
+.nav-link {
+  display: flex; align-items: center; gap: 0.5em;
+  color: var(--nav-text); text-decoration: none;
+  padding: 0.35em 1.3em; font-size: 0.82em;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
+  letter-spacing: 0.03em; 
+}
+.nav-link:hover {
+  color: var(--nav-hover-text);
+  background: rgba(255,255,255,0.04);
+  border-left-color: var(--accent);
+}
+.nav-link.active {
+  color: #fff; font-weight: 500;
+  background: rgba(232,89,12,0.12);
+  border-left-color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.nav-link .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #444; flex-shrink: 0;
+  transition: background 0.15s;
+}
+.nav-link.active .dot { background: var(--accent); }
+
+/* ── Main content ── */
+#main {
+  margin-left: var(--nav-width);
+  max-width: 760px; padding: 2.5em 2em;
+}
+
+/* ── Month anchor offset ── */
+.month-anchor {
+  display: block; position: relative;
+  top: -2em; visibility: hidden; height: 0;
+}
+
+/* ── Problem card ── */
+.problem {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 1.1em 1.3em; border-radius: 8px;
+  margin-bottom: 1em;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+/* ── Details toggle ── */
+details > summary {
+  cursor: pointer; list-style: none;
+  font-weight: 600; font-size: 0.95em;
+  display: flex; align-items: baseline; gap: 0.4em;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::marker { content: ''; }
+details > summary::before {
+  content: "▸"; font-size: 0.75em; color: #999;
+  display: inline-block; width: 1em; flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+details[open] > summary::before {
+  content: "▾";
+}
+
+/* ── Solution block ── */
+.proof {
+  background: var(--proof-bg);
+  border-left: 3px solid var(--proof-border);
+  padding: 0.9em 1.2em; border-radius: 0 6px 6px 0;
+  margin-top: 0.8em;
+}
+.proof > details > summary {
+  font-style: italic; font-weight: 400;
+  color: #3a7d42; font-size: 0.9em;
+}
+
+/* ── Anim ── */
+.anim-wrap { display: grid; grid-template-rows: 0fr; }
+.ready .anim-wrap { transition: grid-template-rows 0.3s ease; }
+details[open] > .anim-wrap { grid-template-rows: 1fr; }
+.anim-inner { overflow: hidden; }
+
+/* ── Lists ── */
+.problem ol, .problem ul { padding-left: 2em; margin: 0.5em 0; }
+
+/* ── Mobile toggle ── */
+#menu-toggle {
+  display: none; position: fixed; top: 1em; left: 1em; z-index: 200;
+  background: var(--nav-bg); color: #fff; border: none; border-radius: 8px;
+  width: 42px; height: 42px; font-size: 1.2em; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+  :root { --nav-width: 180px; }
+  #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+  #sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.4); }
+  #main { margin-left: 0; padding: 1.2em; padding-top: 4em; }
+  #menu-toggle { display: flex; align-items: center; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<button id="menu-toggle">☰</button>
+
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h1>Math Daily</h1>
+    <p>High School Mathematics</p>
+  </div>
+  <div class="nav-year">2026</div><a href="#2026.05" class="nav-link"><span class="dot"></span>May</a>
+
+</nav>
+
+<div id="main">
+  
+<div id="2026.05" class="month-anchor"></div>
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.18.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      计算下列求和.
+<ol>
+<li>\(S_n=1+2x+3x^2+\cdots+nx^{n-1},x\ne 0,n\in\mathbb{N}^+\).</li>
+<li>\(S_n=C_n^1+2C_n^2+3C_n^3+\cdots+nC_n^n\).</li>
+</ol>
+      
+    </div></div>
+  </details>
+</div>
+
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.17.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      对于\(\triangle ABC\)以及平面上一点\(O\), 有\(3\overrightarrow{OA}+4\overrightarrow{OB}+5\overrightarrow{OC}=\overrightarrow{0}\), 求\(\triangle OBC,\triangle OAC\)与\(\triangle OAB\)的面积之比.
+      
+      <div class="proof">
+        <details>
+          <summary><em>Solution:</em></summary>
+          <div class="anim-wrap"><div class="anim-inner">
+            \(3:4:5\).
+          </div></div>
+        </details>
+      </div>
+    </div></div>
+  </details>
+</div>
+
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.15.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      过定点\(A(a,b)\)任作相互垂直的两条直线\(l_1\)与\(l_2\), 且\(l_1\)与\(x\)轴交于点\(M\), \(l_2\)与\(y\)轴交于点\(N\). 求\(MN\)中点\(P\)的轨迹方程.
+      
+      <div class="proof">
+        <details>
+          <summary><em>Solution:</em></summary>
+          <div class="anim-wrap"><div class="anim-inner">
+            \(2ax+2by-a^2-b^2=0\).
+          </div></div>
+        </details>
+      </div>
+    </div></div>
+  </details>
+</div>
+
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.12.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      已知\(a,b,c\in\mathbb{R}^+\), 证明:
+\[\frac{27a^2b^2c^2}{(a+b+c)^3}\geq (a+b-c)(a+c-b)(b+c-a).\]
+      
+      <div class="proof">
+        <details>
+          <summary><em>Solution:</em></summary>
+          <div class="anim-wrap"><div class="anim-inner">
+            当\((a+b-c)(a+c-b)(b+c-a)\leq 0\)时, 原不等式显然成立.
+
+当\((a+b-c)(a+c-b)(b+c-a)> 0\)时, 以\(a,b,c\)为边恰好可构成\(\triangle ABC\). 根据三角形面积的海伦公式\(S=\sqrt{p(p-a)(p-b)(p-c)}\), 其中\(p=(a+b+c)/2\), 整理得\[S^2=\frac{1}{16}(a+b+c)(a+b-c)(b+c-a)(a+c-b),\]
+带入原不等式即证明\(\frac{27a^2b^2c^2}{(a+b+c)^2}\geq 16S^2\), 即证\(\frac{3\sqrt{3}abc}{a+b+c}\geq 4S\), 即\[\frac{3\sqrt{3}abc}{a+b+c}\geq4\times\frac{1}{2}ab\sin C,\]
+由正弦定理代入即证明\(\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}\).
+          </div></div>
+        </details>
+      </div>
+    </div></div>
+  </details>
+</div>
+
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.11.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      对于\(\triangle ABC\), 证明\(\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}\).
+      
+      <div class="proof">
+        <details>
+          <summary><em>Solution:</em></summary>
+          <div class="anim-wrap"><div class="anim-inner">
+            由和差化积公式，
+$$ \sin A + \sin B = 2\cos\frac{C}{2}\cos\frac{A-B}{2} \le 2\cos\frac{C}{2} $$
+故
+$$ \sin A + \sin B + \sin C \le 2\cos\frac{C}{2} + 2\sin\frac{C}{2}\cos\frac{C}{2} = 2\cos\frac{C}{2}\left(1+\sin\frac{C}{2}\right) $$
+
+令 $x = 1+\sin\frac{C}{2}$，因 $C \in (0, \pi)$，故 $x \in (1, 2]$。此时 $\cos^2\frac{C}{2} = 1-\sin^2\frac{C}{2} = (2-x)x$。
+
+将上式平方得：
+$$ \left[2\cos\frac{C}{2}\left(1+\sin\frac{C}{2}\right)\right]^2 = 4(2-x)x \cdot x^2 = 4(2-x)x^3 $$
+
+由均值不等式，因 $x \in (1, 2]$，
+$$ (2-x) + \frac{x}{3} + \frac{x}{3} + \frac{x}{3} = 2 \ge 4\sqrt[4]{(2-x)\left(\frac{x}{3}\right)^3} $$
+解得 $(2-x)x^3 \le \frac{27}{16}$，从而
+$$ 4(2-x)x^3 \le 4 \times \frac{27}{16} = \frac{27}{4} $$
+
+开方即得 $\sin A + \sin B + \sin C \le \frac{3\sqrt{3}}{2}$，当且仅当 $A=B=C=\frac{\pi}{3}$ 时等号成立。
+          </div></div>
+        </details>
+      </div>
+    </div></div>
+  </details>
+</div>
+</div>
+
+<script>
+const toggle = document.getElementById('menu-toggle');
+const sidebar = document.getElementById('sidebar');
+toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+sidebar.querySelectorAll('.nav-link').forEach(a => {
+  a.addEventListener('click', () => sidebar.classList.remove('open'));
+});
+
+const sections = document.querySelectorAll('.month-anchor');
+const navLinks = document.querySelectorAll('.nav-link');
+
+function highlightNav() {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', highlightNav);
+highlightNav();
+
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    document.body.classList.add('ready');
+  });
+});
+</script>
+</body>
+</html>
