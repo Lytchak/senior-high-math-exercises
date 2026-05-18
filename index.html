@@ -35,7 +35,6 @@ MathJax = {
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  /* 优先使用霞鹜文楷显示中文，英文用 Source Serif 4 */
   font-family: 'LXGW WenKai', 'Source Serif 4', Georgia, serif;
   line-height: 1.8; font-size: 16px;
   background: var(--body-bg); color: var(--text);
@@ -68,9 +67,7 @@ body {
   margin-top: 0.2em; letter-spacing: 0.05em;
 }
 
-.nav-section {
-  padding: 0.6em 0;
-}
+.nav-section { padding: 0.6em 0; }
 .nav-year {
   font-family: 'Inter', sans-serif;
   font-size: 0.65em; font-weight: 600;
@@ -110,7 +107,6 @@ body {
   max-width: 760px; padding: 2.5em 2em;
 }
 
-/* ── Month anchor offset ── */
 .month-anchor {
   display: block; position: relative;
   top: -2em; visibility: hidden; height: 0;
@@ -123,24 +119,23 @@ body {
   padding: 1.1em 1.3em; border-radius: 8px;
   margin-bottom: 1em;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow-x: auto; /* 允许长公式横向滑动 */
 }
 
 /* ── Details toggle ── */
 details > summary {
   cursor: pointer; list-style: none;
   font-weight: 600; font-size: 0.95em;
-  display: flex; align-items: center; gap: 0.4em; /* baseline 改为 center，大三角更美观 */
+  display: flex; align-items: center; gap: 0.4em;
 }
 details > summary::-webkit-details-marker { display: none; }
 details > summary::marker { content: ''; }
 details > summary::before {
-  content: "▸"; font-size: 0.95em; color: #999; /* 三角符号从 0.75em 调大到 0.95em */
-  display: inline-block; width: 1.2em; flex-shrink: 0; /* 宽度稍微加大，避免拥挤 */
+  content: "▸"; font-size: 0.95em; color: #999;
+  display: inline-block; width: 1.2em; flex-shrink: 0;
   transition: transform 0.2s ease;
 }
-details[open] > summary::before {
-  content: "▾";
-}
+details[open] > summary::before { content: "▾"; }
 
 /* ── Solution block ── */
 .proof {
@@ -148,6 +143,7 @@ details[open] > summary::before {
   border-left: 3px solid var(--proof-border);
   padding: 0.9em 1.2em; border-radius: 0 6px 6px 0;
   margin-top: 0.8em;
+  overflow-x: auto; /* 允许长公式横向滑动 */
 }
 .proof > details > summary {
   font-style: italic; font-weight: 400;
@@ -158,16 +154,18 @@ details[open] > summary::before {
 .anim-wrap { display: grid; grid-template-rows: 0fr; }
 .ready .anim-wrap { transition: grid-template-rows 0.3s ease; }
 details[open] > .anim-wrap { grid-template-rows: 1fr; }
-.anim-inner { overflow: hidden; }
+
+/* 关键修复：垂直方向隐藏用于折叠动画，水平方向auto允许滑动查看长公式 */
+.anim-inner { 
+  overflow-x: auto;
+  overflow-y: hidden; 
+}
 
 /* ── Lists ── */
 .problem ol, .problem ul { padding-left: 2em; margin: 0.5em 0; }
 
-/* ── MathJax Mobile Scroll Fix ── */
-/* 让行间公式超出时可以横向滑动 */
+/* ── MathJax ── */
 mjx-container[display="true"] {
-  max-width: 100%;
-  overflow-x: auto;
   display: block;
 }
 
@@ -186,12 +184,6 @@ mjx-container[display="true"] {
   #sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.4); }
   #main { margin-left: 0; padding: 1.2em; padding-top: 4em; }
   #menu-toggle { display: flex; align-items: center; justify-content: center; }
-  
-  /* 移动端卡片和解答区域横向滑动支持 */
-  .problem, .proof {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* iOS 顺滑滑动 */
-  }
 }
 </style>
 </head>
