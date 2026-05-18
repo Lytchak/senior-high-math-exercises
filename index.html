@@ -10,7 +10,22 @@ MathJax = {
     inlineMath: [['\\(', '\\)'], ['$', '$']], 
     displayMath: [['\\[', '\\]'], ['$$', '$$']] 
   },
-  svg: { fontCache: 'global' }
+  svg: { fontCache: 'global' },
+  startup: {
+    ready: () => {
+      MathJax.startup.defaultReady();
+      // 获取 TeX 输入处理器
+      const tex = MathJax.startup.input[0];
+      // 添加预过滤器：在解析前自动为行内公式注入 \displaystyle
+      tex.preFilters.add(({math}) => {
+        if (math.display) return; // 如果是行间公式，跳过
+        if (math.math.includes('\\displaystyle')) return; // 如果已有，跳过避免重复
+        
+        // math.math 是不含定界符的纯公式代码，直接在开头注入 \displaystyle 加空格
+        math.math = '\\displaystyle ' + math.math;
+      });
+    }
+  }
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
@@ -119,7 +134,7 @@ body {
   padding: 1.1em 1.3em; border-radius: 8px;
   margin-bottom: 1em;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  overflow-x: auto; /* 允许长公式横向滑动 */
+  overflow-x: auto;
 }
 
 /* ── Details toggle ── */
@@ -143,7 +158,7 @@ details[open] > summary::before { content: "▾"; }
   border-left: 3px solid var(--proof-border);
   padding: 0.9em 1.2em; border-radius: 0 6px 6px 0;
   margin-top: 0.8em;
-  overflow-x: auto; /* 允许长公式横向滑动 */
+  overflow-x: auto;
 }
 .proof > details > summary {
   font-style: italic; font-weight: 400;
@@ -154,8 +169,6 @@ details[open] > summary::before { content: "▾"; }
 .anim-wrap { display: grid; grid-template-rows: 0fr; }
 .ready .anim-wrap { transition: grid-template-rows 0.3s ease; }
 details[open] > .anim-wrap { grid-template-rows: 1fr; }
-
-/* 关键修复：垂直方向隐藏用于折叠动画，水平方向auto允许滑动查看长公式 */
 .anim-inner { 
   overflow-x: auto;
   overflow-y: hidden; 
@@ -280,7 +293,7 @@ mjx-container[display="true"] {
   <details open>
     <summary><strong>2026.05.11.</strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
-      对于\(\triangle ABC\), 证明\(\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}\).
+      对于\(\triangle ABC\), 证明\[\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}.\]
       
       <div class="proof">
         <details>
