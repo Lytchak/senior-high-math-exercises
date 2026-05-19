@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>High School Math Daily</title>
+
+<!-- 使用 jsDelivr 加载霞鹜文楷，国内速度快且按需分包，手机体验极佳 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css" />
+
 <script>
 MathJax = {
   tex: { 
@@ -14,14 +18,10 @@ MathJax = {
   startup: {
     ready: () => {
       MathJax.startup.defaultReady();
-      // 获取 TeX 输入处理器
       const tex = MathJax.startup.input[0];
-      // 添加预过滤器：在解析前自动为行内公式注入 \displaystyle
       tex.preFilters.add(({math}) => {
-        if (math.display) return; // 如果是行间公式，跳过
-        if (math.math.includes('\\displaystyle')) return; // 如果已有，跳过避免重复
-        
-        // math.math 是不含定界符的纯公式代码，直接在开头注入 \displaystyle 加空格
+        if (math.display) return;
+        if (math.math.includes('\\displaystyle')) return;
         math.math = '\\displaystyle ' + math.math;
       });
     }
@@ -30,8 +30,8 @@ MathJax = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
-/* 引入霞鹜文楷、英文衬线和UI字体 */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=LXGW+WenKai&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+/* Google Fonts 只需加载英文的 Inter 和 Source Serif 4 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 :root {
   --nav-width: 168px;
@@ -177,6 +177,12 @@ details[open] > .anim-wrap { grid-template-rows: 1fr; }
 /* ── Lists ── */
 .problem ol, .problem ul { padding-left: 2em; margin: 0.5em 0; }
 
+/* 专门针对 \item[(1)] 自定义标号的样式 */
+.custom-item {
+  list-style-type: none; /* 隐藏默认数字 */
+  margin-left: -1.5em;   /* 向左退回，与普通文本对齐 */
+}
+
 /* ── MathJax ── */
 mjx-container[display="true"] {
   display: block;
@@ -218,14 +224,37 @@ mjx-container[display="true"] {
 <div id="2026.05" class="month-anchor"></div>
 <div class="problem">
   <details open>
+    <summary><strong>2026.05.19.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      已知函数\(f(x)=x\mathrm{e}^{ax}-\mathrm{e}^x\).
+<ol>
+<li class="custom-item">(1)&nbsp;&nbsp;已知\(a=1\), 讨论\(f(x)\)的单调性.</li>
+<li class="custom-item">(2)&nbsp;&nbsp;当\(x>0\)时, \(f(x)<-1\), 求\(a\)的取值范围.</li>
+<li class="custom-item">(3)&nbsp;&nbsp;设\(n\in\mathbb{N}^+\), 证明:\[\frac{1}{\sqrt{1^2+1}}+\frac{1}{\sqrt{2^2+2}}+\cdots+\frac{1}{\sqrt{n^2+n}}>\ln(n+1).\]</li>
+</ol>
+      
+    </div></div>
+  </details>
+</div>
+
+<div class="problem">
+  <details open>
     <summary><strong>2026.05.18.</strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       计算下列求和.
 <ol>
-<li>\(S_n=1+2x+3x^2+\cdots+nx^{n-1},x\ne 0,n\in\mathbb{N}^+\).</li>
-<li>\(S_n=C_n^1+2C_n^2+3C_n^3+\cdots+nC_n^n\).</li>
+<li class="custom-item">&nbsp;&nbsp;\(S_n=1+2x+3x^2+\cdots+nx^{n-1},x\ne 0,n\in\mathbb{N}^+\).</li>
+<li class="custom-item">&nbsp;&nbsp;\(S_n=C_n^1+2C_n^2+3C_n^3+\cdots+nC_n^n\).</li>
 </ol>
       
+      <div class="proof">
+        <details>
+          <summary><em>Solution:</em></summary>
+          <div class="anim-wrap"><div class="anim-inner">
+            考虑\(\sum_{k=1}^{n}x^{k}\)与\((1+x)^n\)的展开式, 求导即可.
+          </div></div>
+        </details>
+      </div>
     </div></div>
   </details>
 </div>
