@@ -61,7 +61,7 @@ body {
   width: var(--nav-width); height: 100vh;
   background: var(--nav-bg);
   overflow-y: auto; z-index: 100;
-  display: flex; flex-direction: column;
+  display: flex; flex-direction: column; /* 让 footer 可以推到底部 */
 }
 #sidebar::-webkit-scrollbar { width: 4px; }
 #sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -82,7 +82,7 @@ body {
   margin-top: 0.2em; letter-spacing: 0.05em;
 }
 
-.nav-section { padding: 0.6em 0; }
+.nav-section { padding: 0.6em 0; flex-grow: 1; /* 让导航区占据剩余空间 */ }
 .nav-year {
   font-family: 'Inter', sans-serif;
   font-size: 0.65em; font-weight: 600;
@@ -115,6 +115,18 @@ body {
   transition: background 0.15s;
 }
 .nav-link.active .dot { background: var(--accent); }
+
+/* ── Sidebar Footer (QQ群) ── */
+.sidebar-footer {
+  margin-top: auto; /* 推到最底部 */
+  padding: 1em 1.2em;
+  border-top: 1px solid #2a2a3a;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7em;
+  color: #666;
+  letter-spacing: 0.03em;
+  text-align: center;
+}
 
 /* ── Main content ── */
 #main {
@@ -215,13 +227,34 @@ mjx-container[display="true"] {
     <h1>Math Daily</h1>
     <p>High School Mathematics</p>
   </div>
-  <div class="nav-year">2026</div><a href="#2026.05" class="nav-link"><span class="dot"></span>May</a>
+  
+  <div class="nav-section">
+    <div class="nav-year">2026</div><a href="#2026.05" class="nav-link"><span class="dot"></span>May</a>
 
+  </div>
+
+  <div class="sidebar-footer">
+    QQ群: 1098706160
+  </div>
 </nav>
 
 <div id="main">
   
 <div id="2026.05" class="month-anchor"></div>
+<div class="problem">
+  <details open>
+    <summary><strong>2026.05.22.</strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      设\(S=\{1,2,\cdots,n\}\), \(n\)为偶数, \(\alpha_k\)表示\(S\)中的\(k\)个元素之积的和, 如\[\begin{split}
+\alpha_1&=1+2+3+\cdots+(n-1)+n,\\
+\alpha_2&=1\times 2+1\times 3+\cdots+1\times n+2\times 3+\cdots+(n-1)\cdot n.
+\end{split}\]
+求\(\sum_{k=1}^n\alpha_k\).
+      
+    </div></div>
+  </details>
+</div>
+
 <div class="problem">
   <details open>
     <summary><strong>2026.05.20.</strong></summary>
