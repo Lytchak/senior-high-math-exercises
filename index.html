@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- 放大1.75倍，并确保宽度跟随设备 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.75">
 <title>High School Math Daily</title>
 
 <!-- 使用 jsDelivr 加载霞鹜文楷 -->
@@ -156,7 +157,9 @@ body {
 /* ── Main content ── */
 #main {
   margin-left: var(--nav-width);
-  max-width: 760px; padding: 2.5em 2em;
+  /* 去掉 max-width: 760px，让内容区铺满 Sidebar 右侧的所有剩余空间 */
+  padding: 2.5em 2em;
+  width: calc(100vw - var(--nav-width));
 }
 
 .month-anchor {
@@ -172,6 +175,8 @@ body {
   margin-bottom: 1em;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   overflow-x: auto;
+  /* 卡片宽度默认撑满容器 */
+  width: 100%;
 }
 
 /* ── Details toggle ── */
@@ -236,7 +241,7 @@ mjx-container[display="true"] {
   display: block;
 }
 
-/* 模拟 LaTeX 中中文与行内公式之间的薄间距 (thin space) */
+/* 模拟 LaTeX 中中文与行内公式之间的薄间距 */
 mjx-container:not([display="true"]) {
   padding-left: 0.15em;
   padding-right: 0.15em;
@@ -255,7 +260,7 @@ mjx-container:not([display="true"]) {
   :root { --nav-width: 180px; }
   #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
   #sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.4); }
-  #main { margin-left: 0; padding: 1.2em; padding-top: 4em; }
+  #main { margin-left: 0; padding: 1.2em; padding-top: 4em; width: 100vw; }
   #menu-toggle { display: flex; align-items: center; justify-content: center; }
 }
 </style>
