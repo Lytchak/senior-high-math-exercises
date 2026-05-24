@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>High School Math Daily</title>
 
-<!-- 使用 jsDelivr 加载霞鹜文楷，国内速度快且按需分包，手机体验极佳 -->
+<!-- 使用 jsDelivr 加载霞鹜文楷 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css" />
 
 <script>
@@ -30,8 +30,8 @@ MathJax = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
-/* Google Fonts 只需加载英文的 Inter 和 Source Serif 4 */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+/* Google Fonts 加载英文衬线和UI字体 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap');
 
 :root {
   --nav-width: 168px;
@@ -61,7 +61,7 @@ body {
   width: var(--nav-width); height: 100vh;
   background: var(--nav-bg);
   overflow-y: auto; z-index: 100;
-  display: flex; flex-direction: column; /* 让 footer 可以推到底部 */
+  display: flex; flex-direction: column;
 }
 #sidebar::-webkit-scrollbar { width: 4px; }
 #sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -82,7 +82,7 @@ body {
   margin-top: 0.2em; letter-spacing: 0.05em;
 }
 
-.nav-section { padding: 0.6em 0; flex-grow: 1; /* 让导航区占据剩余空间 */ }
+.nav-section { padding: 0.6em 0; flex-grow: 1; }
 .nav-year {
   font-family: 'Inter', sans-serif;
   font-size: 0.65em; font-weight: 600;
@@ -116,14 +116,39 @@ body {
 }
 .nav-link.active .dot { background: var(--accent); }
 
-/* ── Sidebar Footer (QQ群) ── */
+/* ── Sidebar Footer ── */
 .sidebar-footer {
-  margin-top: auto; /* 推到最底部 */
+  margin-top: auto;
   padding: 1em 1.2em;
   border-top: 1px solid #2a2a3a;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4em 0.6em;
+  margin-bottom: 1em;
+  padding-bottom: 0.8em;
+  border-bottom: 1px solid #2a2a3a;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 0.4em;
   font-family: 'Inter', sans-serif;
-  font-size: 0.7em;
-  color: #666;
+  font-size: 0.65em;
+  color: var(--nav-text);
+}
+.legend-item .dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.dot-easy { background-color: #2e8b57; }
+.dot-medium { background-color: #2176ff; }
+.dot-hard { background-color: #e8590c; }
+.dot-expert { background-color: #c92a2a; }
+
+.qq-group {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65em;
+  color: #555;
   letter-spacing: 0.03em;
   text-align: center;
 }
@@ -164,6 +189,19 @@ details > summary::before {
 }
 details[open] > summary::before { content: "▾"; }
 
+/* ── Date Artistic Style ── */
+.date {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 900; font-size: 1.3em;
+  margin-right: 0.2em;
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+.diff-1 { color: #2e8b57; }
+.diff-2 { color: #2176ff; }
+.diff-3 { color: #e8590c; }
+.diff-4 { color: #c92a2a; }
+
 /* ── Solution block ── */
 .proof {
   background: var(--proof-bg);
@@ -188,16 +226,20 @@ details[open] > .anim-wrap { grid-template-rows: 1fr; }
 
 /* ── Lists ── */
 .problem ol, .problem ul { padding-left: 2em; margin: 0.5em 0; }
-
-/* 专门针对 \item[(1)] 自定义标号的样式 */
 .custom-item {
-  list-style-type: none; /* 隐藏默认数字 */
-  margin-left: -1.5em;   /* 向左退回，与普通文本对齐 */
+  list-style-type: none;
+  margin-left: -1.5em;
 }
 
 /* ── MathJax ── */
 mjx-container[display="true"] {
   display: block;
+}
+
+/* 模拟 LaTeX 中中文与行内公式之间的薄间距 (thin space) */
+mjx-container:not([display="true"]) {
+  padding-left: 0.15em;
+  padding-right: 0.15em;
 }
 
 /* ── Mobile toggle ── */
@@ -234,7 +276,13 @@ mjx-container[display="true"] {
   </div>
 
   <div class="sidebar-footer">
-    QQ群: 1098706160
+    <div class="legend">
+      <div class="legend-item"><span class="dot dot-easy"></span>Easy</div>
+      <div class="legend-item"><span class="dot dot-medium"></span>Medium</div>
+      <div class="legend-item"><span class="dot dot-hard"></span>Hard</div>
+      <div class="legend-item"><span class="dot dot-expert"></span>Expert</div>
+    </div>
+    <div class="qq-group">QQ Group: 1098706160</div>
   </div>
 </nav>
 
@@ -243,7 +291,17 @@ mjx-container[display="true"] {
 <div id="2026.05" class="month-anchor"></div>
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.22.</strong></summary>
+    <summary><strong><span class="date diff-4">2026.05.24.</span></strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      设实函数\(f\)是\(\mathbb{R}\)上的连续可导函数, 且\(\forall x\in\mathbb{R},f'(x)>f\left(f(x)\right)\). 证明: \(\forall x\geq 0,f\left(f\left(f(x)\right)\right)\leq 0\).
+      
+    </div></div>
+  </details>
+</div>
+
+<div class="problem">
+  <details open>
+    <summary><strong><span class="date diff-3">2026.05.22.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       设\(S=\{1,2,\cdots,n\}\), \(n\)为偶数, \(\alpha_k\)表示\(S\)中的\(k\)个元素之积的和, 如\[\begin{split}
 \alpha_1&=1+2+3+\cdots+(n-1)+n,\\
@@ -257,7 +315,7 @@ mjx-container[display="true"] {
 
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.20.</strong></summary>
+    <summary><strong><span class="date diff-3">2026.05.20.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       在\(\triangle ABC\)中, 证明: \(\sin\frac{A}{2}\sin\frac{B}{2}\sin\frac{C}{2}\leq\frac{1}{8}\).
       
@@ -267,7 +325,7 @@ mjx-container[display="true"] {
 
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.19.</strong></summary>
+    <summary><strong><span class="date diff-3">2026.05.19.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       已知函数\(f(x)=x\mathrm{e}^{ax}-\mathrm{e}^x\).
 <ol>
@@ -282,12 +340,12 @@ mjx-container[display="true"] {
 
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.18.</strong></summary>
+    <summary><strong><span class="date diff-2">2026.05.18.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       计算下列求和.
 <ol>
-<li class="custom-item">&nbsp;&nbsp;\(S_n=1+2x+3x^2+\cdots+nx^{n-1},x\ne 0,n\in\mathbb{N}^+\).</li>
-<li class="custom-item">&nbsp;&nbsp;\(S_n=C_n^1+2C_n^2+3C_n^3+\cdots+nC_n^n\).</li>
+<li class="custom-item">(1)&nbsp;&nbsp;\(S_n=1+2x+3x^2+\cdots+nx^{n-1},x\ne 0,n\in\mathbb{N}^+\).</li>
+<li class="custom-item">(2)&nbsp;&nbsp;\(S_n=C_n^1+2C_n^2+3C_n^3+\cdots+nC_n^n\).</li>
 </ol>
       
       <div class="proof">
@@ -304,7 +362,7 @@ mjx-container[display="true"] {
 
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.17.</strong></summary>
+    <summary><strong><span class="date diff-2">2026.05.17.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       对于\(\triangle ABC\)以及平面上一点\(O\), 有\(3\overrightarrow{OA}+4\overrightarrow{OB}+5\overrightarrow{OC}=\overrightarrow{0}\), 求\(\triangle OBC,\triangle OAC\)与\(\triangle OAB\)的面积之比.
       
@@ -322,7 +380,7 @@ mjx-container[display="true"] {
 
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.15.</strong></summary>
+    <summary><strong><span class="date diff-1">2026.05.15.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       过定点\(A(a,b)\)任作相互垂直的两条直线\(l_1\)与\(l_2\), 且\(l_1\)与\(x\)轴交于点\(M\), \(l_2\)与\(y\)轴交于点\(N\). 求\(MN\)中点\(P\)的轨迹方程.
       
@@ -340,7 +398,7 @@ mjx-container[display="true"] {
 
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.12.</strong></summary>
+    <summary><strong><span class="date diff-3">2026.05.12.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       已知\(a,b,c\in\mathbb{R}^+\), 证明:
 \[\frac{27a^2b^2c^2}{(a+b+c)^3}\geq (a+b-c)(a+c-b)(b+c-a).\]
@@ -363,7 +421,7 @@ mjx-container[display="true"] {
 
 <div class="problem">
   <details open>
-    <summary><strong>2026.05.11.</strong></summary>
+    <summary><strong><span class="date diff-3">2026.05.11.</span></strong></summary>
     <div class="anim-wrap"><div class="anim-inner">
       对于\(\triangle ABC\), 证明\[\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}.\]
       
