@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- 放大1.75倍，并确保宽度跟随设备 -->
-<meta name="viewport" content="width=device-width, initial-scale=1.75">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>High School Math Daily</title>
 
 <!-- 使用 jsDelivr 加载霞鹜文楷 -->
@@ -31,28 +30,29 @@ MathJax = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 <style>
-/* Google Fonts 加载英文衬线和UI字体 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap');
 
 :root {
-  --nav-width: 168px;
+  --nav-width: 10.5em; 
   --nav-bg: #151520;
   --nav-text: #8b8ba0;
   --nav-hover-text: #fff;
   --accent: #e8590c;
+  --zoom-active: #a855f7;
   --body-bg: #f4f1ec;
   --card-bg: #fef9e7;
   --card-border: #f0d98d;
   --proof-bg: #eef7f0;
   --proof-border: #6abf73;
   --text: #2c2c2c;
+  font-size: 16px; 
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'LXGW WenKai', 'Source Serif 4', Georgia, serif;
-  line-height: 1.8; font-size: 16px;
+  line-height: 1.8; font-size: 1rem;
   background: var(--body-bg); color: var(--text);
 }
 
@@ -84,12 +84,32 @@ body {
 }
 
 .nav-section { padding: 0.6em 0; flex-grow: 1; }
+
+.nav-year-group { margin-bottom: 0.2em; }
+
 .nav-year {
   font-family: 'Inter', sans-serif;
   font-size: 0.65em; font-weight: 600;
   color: #555; padding: 0.5em 1.3em 0.2em;
   letter-spacing: 0.1em;
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  user-select: none;
 }
+.nav-year .arrow {
+  font-size: 0.8em; transition: transform 0.2s ease; display: inline-block;
+}
+.nav-year.collapsed .arrow { transform: rotate(-90deg); }
+
+.nav-months {
+  overflow: hidden; 
+  max-height: 1000px; 
+  transition: max-height 0.3s ease;
+}
+.nav-months.collapsed {
+  max-height: 0 !important; 
+}
+
 .nav-link {
   display: flex; align-items: center; gap: 0.5em;
   color: var(--nav-text); text-decoration: none;
@@ -137,7 +157,15 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 0.65em;
   color: var(--nav-text);
+  cursor: pointer;
+  padding: 0.2em 0.3em;
+  border-radius: 4px;
+  transition: all 0.15s;
+  user-select: none;
 }
+.legend-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.legend-item.active-diff { background: rgba(168, 85, 247, 0.15); color: #fff; }
+
 .legend-item .dot {
   width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
 }
@@ -145,6 +173,7 @@ body {
 .dot-medium { background-color: #2176ff; }
 .dot-hard { background-color: #e8590c; }
 .dot-expert { background-color: #c92a2a; }
+.dot-all { background-color: #8b8ba0; }
 
 .qq-group {
   font-family: 'Inter', sans-serif;
@@ -152,14 +181,48 @@ body {
   color: #555;
   letter-spacing: 0.03em;
   text-align: center;
+  margin-top: 0.8em;
+}
+
+/* ── Zoom Controls ── */
+.zoom-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4em;
+  margin-bottom: 1em;
+  padding-bottom: 0.8em;
+  border-bottom: 1px solid #2a2a3a;
+}
+.zoom-btn {
+  flex: 1;
+  background: #2a2a3a;
+  color: var(--nav-text);
+  border: 1px solid #3a3a4a;
+  border-radius: 4px;
+  padding: 0.35em 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+.zoom-btn:hover { background: #3a3a4a; color: #fff; }
+.zoom-btn.active {
+  background: var(--zoom-active); color: #fff;
+  border-color: var(--zoom-active);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
 }
 
 /* ── Main content ── */
 #main {
   margin-left: var(--nav-width);
-  /* 去掉 max-width: 760px，让内容区铺满 Sidebar 右侧的所有剩余空间 */
   padding: 2.5em 2em;
   width: calc(100vw - var(--nav-width));
+}
+
+.month-group {
+  margin-bottom: 1.5em;
 }
 
 .month-anchor {
@@ -175,8 +238,10 @@ body {
   margin-bottom: 1em;
   box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   overflow-x: auto;
-  /* 卡片宽度默认撑满容器 */
   width: 100%;
+}
+.problem.hidden-problem {
+  display: none;
 }
 
 /* ── Details toggle ── */
@@ -237,11 +302,7 @@ details[open] > .anim-wrap { grid-template-rows: 1fr; }
 }
 
 /* ── MathJax ── */
-mjx-container[display="true"] {
-  display: block;
-}
-
-/* 模拟 LaTeX 中中文与行内公式之间的薄间距 */
+mjx-container[display="true"] { display: block; }
 mjx-container:not([display="true"]) {
   padding-left: 0.15em;
   padding-right: 0.15em;
@@ -257,7 +318,7 @@ mjx-container:not([display="true"]) {
 }
 
 @media (max-width: 768px) {
-  :root { --nav-width: 180px; }
+  :root { --nav-width: 11.25em; }
   #sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
   #sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.4); }
   #main { margin-left: 0; padding: 1.2em; padding-top: 4em; width: 100vw; }
@@ -278,15 +339,25 @@ mjx-container:not([display="true"]) {
   <div class="nav-section">
     <div class="nav-year">2026</div><a href="#2026.05" class="nav-link"><span class="dot"></span>May</a>
 
+    <!-- 你的build.py只需照常生成普通的 <a class="nav-link" href="#2026-01">...</a> 即可 -->
   </div>
 
   <div class="sidebar-footer">
     <div class="legend">
-      <div class="legend-item"><span class="dot dot-easy"></span>Easy</div>
-      <div class="legend-item"><span class="dot dot-medium"></span>Medium</div>
-      <div class="legend-item"><span class="dot dot-hard"></span>Hard</div>
-      <div class="legend-item"><span class="dot dot-expert"></span>Expert</div>
+      <div class="legend-item filter-btn active-diff" data-diff="all"><span class="dot dot-all"></span>All</div>
+      <div class="legend-item filter-btn" data-diff="1"><span class="dot dot-easy"></span>Easy</div>
+      <div class="legend-item filter-btn" data-diff="2"><span class="dot dot-medium"></span>Medium</div>
+      <div class="legend-item filter-btn" data-diff="3"><span class="dot dot-hard"></span>Hard</div>
+      <div class="legend-item filter-btn" data-diff="4"><span class="dot dot-expert"></span>Expert</div>
     </div>
+    
+    <div class="zoom-controls">
+      <button class="zoom-btn active" data-scale="1">1x</button>
+      <button class="zoom-btn" data-scale="1.25">1.25x</button>
+      <button class="zoom-btn" data-scale="1.5">1.5x</button>
+      <button class="zoom-btn" data-scale="1.75">1.75x</button>
+    </div>
+
     <div class="qq-group">QQ Group: 1098706160</div>
   </div>
 </nav>
@@ -294,6 +365,24 @@ mjx-container:not([display="true"]) {
 <div id="main">
   
 <div id="2026.05" class="month-anchor"></div>
+<div class="problem">
+  <details open>
+    <summary><strong><span class="date diff-2">2026.05.25.</span></strong></summary>
+    <div class="anim-wrap"><div class="anim-inner">
+      设\(a,b\)是非零实数, \(x\in\mathbb{R}\), 若\(\frac{\sin^4}{a^2}+\frac{\cos^4x}{b^2}=\frac{1}{a^2+b^2}\), 求\(\frac{\sin^{2024}x}{a^{2022}}+\frac{\cos^{2024}x}{b^{2022}}\)的值.
+      
+      <div class="proof">
+        <details>
+          <summary><em>Solution:</em></summary>
+          <div class="anim-wrap"><div class="anim-inner">
+            \(1/(a^2+b^2)^{1011}.\)
+          </div></div>
+        </details>
+      </div>
+    </div></div>
+  </details>
+</div>
+
 <div class="problem">
   <details open>
     <summary><strong><span class="date diff-4">2026.05.24.</span></strong></summary>
@@ -456,6 +545,7 @@ $$ 4(2-x)x^3 \le 4 \times \frac{27}{16} = \frac{27}{4} $$
     </div></div>
   </details>
 </div>
+  <!-- 你的build.py只需照常生成普通的 <div class="month-anchor" id="2026-01"></div> 和 <div class="problem">...</div> 即可 -->
 </div>
 
 <script>
@@ -463,25 +553,186 @@ const toggle = document.getElementById('menu-toggle');
 const sidebar = document.getElementById('sidebar');
 toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
 
-sidebar.querySelectorAll('.nav-link').forEach(a => {
-  a.addEventListener('click', () => sidebar.classList.remove('open'));
-});
+/* ── 1. 自动整理 DOM 结构 (无需改动 build.py) ── */
+function autoOrganizeDOM() {
+  // 1.1 自动将右侧扁平的题目包裹成 month-group
+  const main = document.getElementById('main');
+  const tempDiv = document.createElement('div');
+  let currentGroup = null;
+  
+  while (main.firstChild) {
+    let child = main.firstChild;
+    main.removeChild(child);
+    
+    if (child.nodeType === 1 && child.classList.contains('month-anchor')) {
+      currentGroup = document.createElement('div');
+      currentGroup.className = 'month-group';
+      currentGroup.dataset.month = child.id;
+      currentGroup.appendChild(child);
+      tempDiv.appendChild(currentGroup);
+    } else if (currentGroup) {
+      currentGroup.appendChild(child);
+    } else {
+      tempDiv.appendChild(child);
+    }
+  }
+  while (tempDiv.firstChild) {
+    main.appendChild(tempDiv.firstChild);
+  }
 
-const sections = document.querySelectorAll('.month-anchor');
-const navLinks = document.querySelectorAll('.nav-link');
+  // 1.2 自动将左侧扁平的链接包裹成 nav-year-group
+  const navSection = document.querySelector('.nav-section');
+  if (navSection) {
+    const links = Array.from(navSection.querySelectorAll('.nav-link'));
+    let currentYearGroup = null;
+    let currentMonthsDiv = null;
+    
+    navSection.innerHTML = ''; // 清空重建
+    
+    links.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const monthId = href.replace('#', '');
+      link.dataset.month = monthId; // 给链接加上 data-month
+      const year = monthId.substring(0, 4); // 提取年份，如 "2026"
+      
+      if (!currentYearGroup || currentYearGroup.dataset.year !== year) {
+        currentYearGroup = document.createElement('div');
+        currentYearGroup.className = 'nav-year-group';
+        currentYearGroup.dataset.year = year;
+        
+        const yearHeader = document.createElement('div');
+        yearHeader.className = 'nav-year';
+        yearHeader.innerHTML = `${year} <span class="arrow">▾</span>`;
+        currentYearGroup.appendChild(yearHeader);
+        
+        currentMonthsDiv = document.createElement('div');
+        currentMonthsDiv.className = 'nav-months';
+        currentYearGroup.appendChild(currentMonthsDiv);
+        
+        navSection.appendChild(currentYearGroup);
+      }
+      currentMonthsDiv.appendChild(link);
+    });
+  }
 
-function highlightNav() {
-  let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 80) current = s.id;
-  });
-  navLinks.forEach(link => {
-    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  // 1.3 自动为题目提取难度标识
+  document.querySelectorAll('.problem').forEach(p => {
+    if (p.querySelector('.diff-1')) p.dataset.diff = '1';
+    else if (p.querySelector('.diff-2')) p.dataset.diff = '2';
+    else if (p.querySelector('.diff-3')) p.dataset.diff = '3';
+    else if (p.querySelector('.diff-4')) p.dataset.diff = '4';
   });
 }
-window.addEventListener('scroll', highlightNav);
-highlightNav();
+autoOrganizeDOM(); // 执行整理
 
+
+/* ── 2. 缩放逻辑 ── */
+const baseFontSize = 16; 
+function applyZoom(scale, save = false) {
+  document.documentElement.style.fontSize = (baseFontSize * scale) + 'px';
+  document.querySelectorAll('.zoom-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.scale === String(scale));
+  });
+  if (save) localStorage.setItem('mathDailyZoom', scale);
+}
+document.querySelectorAll('.zoom-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyZoom(btn.dataset.scale, true));
+});
+const savedZoom = localStorage.getItem('mathDailyZoom') || '1';
+applyZoom(savedZoom, false);
+
+
+/* ── 3. 年份折叠逻辑 ── */
+document.querySelectorAll('.nav-year').forEach(yearEl => {
+  yearEl.addEventListener('click', () => {
+    yearEl.classList.toggle('collapsed');
+    const monthsDiv = yearEl.nextElementSibling;
+    if (monthsDiv && monthsDiv.classList.contains('nav-months')) {
+      monthsDiv.classList.toggle('collapsed');
+    }
+  });
+});
+
+
+/* ── 4. 月份选中与题目折叠逻辑 ── */
+let currentMonth = '';
+const navLinks = document.querySelectorAll('.nav-link');
+
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const month = link.dataset.month;
+    sidebar.classList.remove('open'); 
+
+    if (link.classList.contains('active')) {
+      // 点击已选中的月份：切换该月题目的折叠/展开
+      const group = document.querySelector(`.month-group[data-month="${month}"]`);
+      if (group) {
+        const details = group.querySelectorAll('.problem > details');
+        const anyOpen = Array.from(details).some(d => d.open);
+        details.forEach(d => d.open = !anyOpen); 
+      }
+    } else {
+      // 点击未选中的月份：选中它，跳转，并展开所有题目
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      currentMonth = month;
+      
+      const anchor = document.getElementById(month);
+      if (anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      const group = document.querySelector(`.month-group[data-month="${month}"]`);
+      if (group) {
+        group.querySelectorAll('.problem > details').forEach(d => d.open = true);
+      }
+      filterProblems(); 
+    }
+  });
+});
+
+
+/* ── 5. 难度筛选逻辑 ── */
+let currentDiff = 'all';
+const filterBtns = document.querySelectorAll('.filter-btn');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active-diff'));
+    btn.classList.add('active-diff');
+    currentDiff = btn.dataset.diff;
+    filterProblems();
+  });
+});
+
+function filterProblems() {
+  const groups = document.querySelectorAll('.month-group');
+  groups.forEach(group => {
+    const groupMonth = group.dataset.month;
+    const isMonthMatch = !currentMonth || groupMonth === currentMonth;
+    
+    if (!isMonthMatch) {
+      group.style.display = 'none';
+      return;
+    }
+
+    let hasVisibleProblem = false;
+    const problems = group.querySelectorAll('.problem');
+    problems.forEach(problem => {
+      const isDiffMatch = currentDiff === 'all' || problem.dataset.diff === currentDiff;
+      if (isDiffMatch) {
+        problem.style.display = '';
+        hasVisibleProblem = true;
+      } else {
+        problem.style.display = 'none';
+      }
+    });
+
+    group.style.display = hasVisibleProblem ? '' : 'none';
+  });
+}
+
+
+/* ── 6. 初始动画 ── */
 requestAnimationFrame(() => {
   requestAnimationFrame(() => {
     document.body.classList.add('ready');
