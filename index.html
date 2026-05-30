@@ -14,6 +14,24 @@ MathJax = {
     inlineMath: [['\\(', '\\)'], ['$', '$']], 
     displayMath: [['\\[', '\\]'], ['$$', '$$']] 
   },
+macros: {
+      // 将 \textbf 映射为 MathJax 的 \mathbf (数学粗体，适合向量)
+      textbf: '\\mathbf',
+      // 将 \textit 映射为 \mathit (数学斜体，适合变量)
+      textit: '\\mathit', 
+      // 将 \textbf (文本模式) 映射为 \text (需要 CSS 配合，但在公式里通常用上面两个更好)
+      emph: '\\textit',
+      // 如果你需要文本模式的粗体（不是数学符号），可以用下面的写法，但兼容性较差：
+      // textbf: ['\\text{\\bf #1}', 1], 
+    },
+    
+    // 👇 可选：加载这些包有助于识别更多命令
+    packages: {'[+]': ['noerrors', 'noundefined']}, 
+  },
+
+
+
+
   svg: { fontCache: 'global' },
   startup: {
     ready: () => {
@@ -364,198 +382,214 @@ mjx-container:not([display="true"]) {
 
 <div id="main">
   
-<div id="2026.05" class="month-anchor"></div>
+    <div id="2026.05" class="month-anchor"></div>
 <div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-3">2026.05.28.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      已知\(f(x)=\frac{2x}{ax+b},f(1)=1,f\left(\frac{1}{2}\right)=\frac{2}{3}\), 数列\(\{x_n\}\)满足\(x_{n+1}=f(x_n),x_1=\frac{1}{2}\).
+      <details open>
+        <summary><strong><span class="date diff-4">2026.05.30.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          现在我们用\(a\uparrow b\)表示\(a^b\), 如\(3\uparrow 2=3^2\), 定义\(a\uparrow\uparrow n=\underbrace{a\uparrow a\uparrow a\uparrow\cdots\uparrow a}_{n \text{ times }a}\), 如\(a\uparrow\uparrow 3=a\uparrow a\uparrow a=a^{a^a}\), \(2\uparrow\uparrow 4=2\uparrow 2\uparrow 2\uparrow 2=2^{2^{2^2}}=2^{16}\), 给定函数\(f(x)=\lim_{n\to+\infty}x\uparrow\uparrow n=x^{x^{x^{\cdot^{\cdot^\cdot}}}}\).
+<ol>
+<li class="custom-item">(1)&nbsp;&nbsp;求\(f(x)\)的定义域(使得极限\(\lim_{n\to+\infty}x\uparrow\uparrow n\)存在)与值域.</li>
+<li class="custom-item">(2)&nbsp;&nbsp;计算\(f\left(\sqrt{2}\right)\).</li>
+<li class="custom-item">(3)&nbsp;&nbsp;证明\(f\left(\sqrt[3]{3}\right)\ne 3.\)</li>
+</ol>
+<span style="font-family: KaiTi, STKaiti, serif">提示: \(\mathrm{e}\approx 2.718\),\(\mathrm{e}^{-1}\approx0.368\),\(\mathrm{e}^{-\mathrm{e}}\approx 0.066\),\(\mathrm{e}^{1/\mathrm{e}}\approx 1.445\),\(\sqrt{2}\approx 1.414\),\(\sqrt[3]{3}\approx1.442\). 对于可微函数\(g(x)\), 定义迭代数列\(x_{n+1}=g(x_n)\), 如果\(\lim_{n\to+\infty}x_n\)存在, 那么\(|g'|\leq 1\)</span>.
+          
+        </div></div>
+      </details>
+    </div>
+
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-3">2026.05.28.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          已知\(f(x)=\frac{2x}{ax+b},f(1)=1,f\left(\frac{1}{2}\right)=\frac{2}{3}\), 数列\(\{x_n\}\)满足\(x_{n+1}=f(x_n),x_1=\frac{1}{2}\).
 <ol>
 <li class="custom-item">(1)&nbsp;&nbsp;求\(\{x_n\}\)的通项.</li>
 <li class="custom-item">(2)&nbsp;&nbsp;证明:\(x_1x_2\cdot\cdots\cdot x_n>\frac{1}{2\mathrm{e}}\), 其中\(\mathrm{e}=\lim_{n\to+\infty}\left(1+\frac{1}{n}\right)^n\approx 2.71828\).</li>
 </ol>
-      
-    </div></div>
-  </details>
-</div>
+          
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-2">2026.05.26.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      计算\(\cos^420^\circ+\cos^440^\circ+\cos^480^\circ\).
-      
-      <div class="proof">
-        <details>
-          <summary><em>Solution:</em></summary>
-          <div class="anim-wrap"><div class="anim-inner">
-            \(9/8\).
-          </div></div>
-        </details>
-      </div>
-    </div></div>
-  </details>
-</div>
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-2">2026.05.26.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          计算\(\cos^420^\circ+\cos^440^\circ+\cos^480^\circ\).
+          
+    <div class="proof">
+      <details>
+        <summary><em>Solution:</em></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          \(9/8\).
+        </div></div>
+      </details>
+    </div>
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-2">2026.05.25.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      设\(a,b\)是非零实数, \(x\in\mathbb{R}\), 若\(\frac{\sin^4}{a^2}+\frac{\cos^4x}{b^2}=\frac{1}{a^2+b^2}\), 求\(\frac{\sin^{2024}x}{a^{2022}}+\frac{\cos^{2024}x}{b^{2022}}\)的值.
-      
-      <div class="proof">
-        <details>
-          <summary><em>Solution:</em></summary>
-          <div class="anim-wrap"><div class="anim-inner">
-            \(1/(a^2+b^2)^{1011}.\)
-          </div></div>
-        </details>
-      </div>
-    </div></div>
-  </details>
-</div>
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-2">2026.05.25.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          设\(a,b\)是非零实数, \(x\in\mathbb{R}\), 若\(\frac{\sin^4}{a^2}+\frac{\cos^4x}{b^2}=\frac{1}{a^2+b^2}\), 求\(\frac{\sin^{2024}x}{a^{2022}}+\frac{\cos^{2024}x}{b^{2022}}\)的值.
+          
+    <div class="proof">
+      <details>
+        <summary><em>Solution:</em></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          \(1/(a^2+b^2)^{1011}.\)
+        </div></div>
+      </details>
+    </div>
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-4">2026.05.24.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      设实函数\(f\)是\(\mathbb{R}\)上的连续可导函数, 且\(\forall x\in\mathbb{R},f'(x)>f\left(f(x)\right)\). 证明: \(\forall x\geq 0,f\left(f\left(f(x)\right)\right)\leq 0\).
-      
-    </div></div>
-  </details>
-</div>
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-4">2026.05.24.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          设实函数\(f\)是\(\mathbb{R}\)上的连续可导函数, 且\(\forall x\in\mathbb{R},f'(x)>f\left(f(x)\right)\). 证明: \(\forall x\geq 0,f\left(f\left(f(x)\right)\right)\leq 0\).
+          
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-3">2026.05.22.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      设\(S=\{1,2,\cdots,n\}\), \(n\)为偶数, \(\alpha_k\)表示\(S\)中的\(k\)个元素之积的和, 如\[\begin{split}
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-3">2026.05.22.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          设\(S=\{1,2,\cdots,n\}\), \(n\)为偶数, \(\alpha_k\)表示\(S\)中的\(k\)个元素之积的和, 如\[\begin{split}
 \alpha_1&=1+2+3+\cdots+(n-1)+n,\\
 \alpha_2&=1\times 2+1\times 3+\cdots+1\times n+2\times 3+\cdots+(n-1)\cdot n.
 \end{split}\]
 求\(\sum_{k=1}^n\alpha_k\).
-      
-    </div></div>
-  </details>
-</div>
+          
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-3">2026.05.20.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      在\(\triangle ABC\)中, 证明: \(\sin\frac{A}{2}\sin\frac{B}{2}\sin\frac{C}{2}\leq\frac{1}{8}\).
-      
-    </div></div>
-  </details>
-</div>
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-3">2026.05.20.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          在\(\triangle ABC\)中, 证明: \(\sin\frac{A}{2}\sin\frac{B}{2}\sin\frac{C}{2}\leq\frac{1}{8}\).
+          
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-3">2026.05.19.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      已知函数\(f(x)=x\mathrm{e}^{ax}-\mathrm{e}^x\).
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-3">2026.05.19.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          已知函数\(f(x)=x\mathrm{e}^{ax}-\mathrm{e}^x\).
 <ol>
 <li class="custom-item">(1)&nbsp;&nbsp;已知\(a=1\), 讨论\(f(x)\)的单调性.</li>
 <li class="custom-item">(2)&nbsp;&nbsp;当\(x>0\)时, \(f(x)<-1\), 求\(a\)的取值范围.</li>
 <li class="custom-item">(3)&nbsp;&nbsp;设\(n\in\mathbb{N}^+\), 证明:\[\frac{1}{\sqrt{1^2+1}}+\frac{1}{\sqrt{2^2+2}}+\cdots+\frac{1}{\sqrt{n^2+n}}>\ln(n+1).\]</li>
 </ol>
-      
-    </div></div>
-  </details>
-</div>
+          
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-2">2026.05.18.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      计算下列求和.
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-2">2026.05.18.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          计算下列求和.
 <ol>
 <li class="custom-item">(1)&nbsp;&nbsp;\(S_n=1+2x+3x^2+\cdots+nx^{n-1},x\ne 0,n\in\mathbb{N}^+\).</li>
 <li class="custom-item">(2)&nbsp;&nbsp;\(S_n=C_n^1+2C_n^2+3C_n^3+\cdots+nC_n^n\).</li>
 </ol>
-      
-      <div class="proof">
-        <details>
-          <summary><em>Solution:</em></summary>
-          <div class="anim-wrap"><div class="anim-inner">
-            考虑\(\sum_{k=1}^{n}x^{k}\)与\((1+x)^n\)的展开式, 求导即可.
-          </div></div>
-        </details>
-      </div>
-    </div></div>
-  </details>
-</div>
+          
+    <div class="proof">
+      <details>
+        <summary><em>Solution:</em></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          考虑\(\sum_{k=1}^{n}x^{k}\)与\((1+x)^n\)的展开式, 求导即可.
+        </div></div>
+      </details>
+    </div>
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-2">2026.05.17.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      对于\(\triangle ABC\)以及平面上一点\(O\), 有\(3\overrightarrow{OA}+4\overrightarrow{OB}+5\overrightarrow{OC}=\overrightarrow{0}\), 求\(\triangle OBC,\triangle OAC\)与\(\triangle OAB\)的面积之比.
-      
-      <div class="proof">
-        <details>
-          <summary><em>Solution:</em></summary>
-          <div class="anim-wrap"><div class="anim-inner">
-            \(3:4:5\).
-          </div></div>
-        </details>
-      </div>
-    </div></div>
-  </details>
-</div>
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-2">2026.05.17.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          对于\(\triangle ABC\)以及平面上一点\(O\), 有\(3\overrightarrow{OA}+4\overrightarrow{OB}+5\overrightarrow{OC}=\overrightarrow{0}\), 求\(\triangle OBC,\triangle OAC\)与\(\triangle OAB\)的面积之比.
+          
+    <div class="proof">
+      <details>
+        <summary><em>Solution:</em></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          \(3:4:5\).
+        </div></div>
+      </details>
+    </div>
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-1">2026.05.15.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      过定点\(A(a,b)\)任作相互垂直的两条直线\(l_1\)与\(l_2\), 且\(l_1\)与\(x\)轴交于点\(M\), \(l_2\)与\(y\)轴交于点\(N\). 求\(MN\)中点\(P\)的轨迹方程.
-      
-      <div class="proof">
-        <details>
-          <summary><em>Solution:</em></summary>
-          <div class="anim-wrap"><div class="anim-inner">
-            \(2ax+2by-a^2-b^2=0\).
-          </div></div>
-        </details>
-      </div>
-    </div></div>
-  </details>
-</div>
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-1">2026.05.15.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          过定点\(A(a,b)\)任作相互垂直的两条直线\(l_1\)与\(l_2\), 且\(l_1\)与\(x\)轴交于点\(M\), \(l_2\)与\(y\)轴交于点\(N\). 求\(MN\)中点\(P\)的轨迹方程.
+          
+    <div class="proof">
+      <details>
+        <summary><em>Solution:</em></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          \(2ax+2by-a^2-b^2=0\).
+        </div></div>
+      </details>
+    </div>
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-3">2026.05.12.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      已知\(a,b,c\in\mathbb{R}^+\), 证明:
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-3">2026.05.12.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          已知\(a,b,c\in\mathbb{R}^+\), 证明:
 \[\frac{27a^2b^2c^2}{(a+b+c)^3}\geq (a+b-c)(a+c-b)(b+c-a).\]
-      
-      <div class="proof">
-        <details>
-          <summary><em>Solution:</em></summary>
-          <div class="anim-wrap"><div class="anim-inner">
-            当\((a+b-c)(a+c-b)(b+c-a)\leq 0\)时, 原不等式显然成立.
+          
+    <div class="proof">
+      <details>
+        <summary><em>Solution:</em></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          当\((a+b-c)(a+c-b)(b+c-a)\leq 0\)时, 原不等式显然成立.
 
 当\((a+b-c)(a+c-b)(b+c-a)> 0\)时, 以\(a,b,c\)为边恰好可构成\(\triangle ABC\). 根据三角形面积的海伦公式\(S=\sqrt{p(p-a)(p-b)(p-c)}\), 其中\(p=(a+b+c)/2\), 整理得\[S^2=\frac{1}{16}(a+b+c)(a+b-c)(b+c-a)(a+c-b),\]
 带入原不等式即证明\(\frac{27a^2b^2c^2}{(a+b+c)^2}\geq 16S^2\), 即证\(\frac{3\sqrt{3}abc}{a+b+c}\geq 4S\), 即\[\frac{3\sqrt{3}abc}{a+b+c}\geq4\times\frac{1}{2}ab\sin C,\]
 由正弦定理代入即证明\(\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}\).
-          </div></div>
-        </details>
-      </div>
-    </div></div>
-  </details>
-</div>
+        </div></div>
+      </details>
+    </div>
+        </div></div>
+      </details>
+    </div>
 
-<div class="problem">
-  <details open>
-    <summary><strong><span class="date diff-3">2026.05.11.</span></strong></summary>
-    <div class="anim-wrap"><div class="anim-inner">
-      对于\(\triangle ABC\), 证明\[\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}.\]
-      
-      <div class="proof">
-        <details>
-          <summary><em>Solution:</em></summary>
-          <div class="anim-wrap"><div class="anim-inner">
-            由和差化积公式，
+    <div class="problem">
+      <details open>
+        <summary><strong><span class="date diff-3">2026.05.11.</span></strong></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          对于\(\triangle ABC\), 证明\[\sin A+\sin B+\sin C\leq\frac{3\sqrt{3}}{2}.\]
+          
+    <div class="proof">
+      <details>
+        <summary><em>Solution:</em></summary>
+        <div class="anim-wrap"><div class="anim-inner">
+          由和差化积公式，
 $$ \sin A + \sin B = 2\cos\frac{C}{2}\cos\frac{A-B}{2} \le 2\cos\frac{C}{2} $$
 故
 $$ \sin A + \sin B + \sin C \le 2\cos\frac{C}{2} + 2\sin\frac{C}{2}\cos\frac{C}{2} = 2\cos\frac{C}{2}\left(1+\sin\frac{C}{2}\right) $$
@@ -571,12 +605,12 @@ $$ (2-x) + \frac{x}{3} + \frac{x}{3} + \frac{x}{3} = 2 \ge 4\sqrt[4]{(2-x)\left(
 $$ 4(2-x)x^3 \le 4 \times \frac{27}{16} = \frac{27}{4} $$
 
 开方即得 $\sin A + \sin B + \sin C \le \frac{3\sqrt{3}}{2}$，当且仅当 $A=B=C=\frac{\pi}{3}$ 时等号成立。
-          </div></div>
-        </details>
-      </div>
-    </div></div>
-  </details>
-</div>
+        </div></div>
+      </details>
+    </div>
+        </div></div>
+      </details>
+    </div>
   <!-- 你的build.py只需照常生成普通的 <div class="month-anchor" id="2026-01"></div> 和 <div class="problem">...</div> 即可 -->
 </div>
 
